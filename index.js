@@ -15,10 +15,15 @@ const prompt = require('prompt-sync')();
 const canvas = createCanvas(canv.x, canv.y);
 const ctx = canvas.getContext('2d');
 
-let topText = prompt('top text: ');
-let bottomText = prompt('bottom text: ');
-let imgRequested = prompt('img: ');
-let textColor = prompt('text color (usually white): ')
+let topText = prompt('Top Text:');
+let bottomText = prompt('Bottom Text: ');
+let imgRequested = prompt('Image Path: ');
+let textColor = prompt('Text Color: ')
+
+if (!topText || !bottomText || !imgRequested || !textColor) {
+    console.log('You cannot leave arguments empty!')
+    process.exit(0)
+}
 
 const image = require('fs').readFileSync(imgRequested);
 const img = new Image();
@@ -32,3 +37,5 @@ ctx.fillStyle = textColor;
 ctx.fillText(topText, canvas.width / 2 - ctx.measureText(topText).width / 2, 25 * (canv.x / 200));
 ctx.fillText(bottomText, canvas.width / 2 - ctx.measureText(bottomText).width / 2, 195 * (canv.y / 200));
 require('fs').writeFileSync('img.png', canvas.toBuffer())
+
+console.log('Image saved to: ' + __dirname + '\\img.png')
